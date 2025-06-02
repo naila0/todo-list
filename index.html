@@ -16,9 +16,9 @@
   <title>to do list</title>
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-  <h1>to do list</h1>
+  <h1>to do list</h1
+  
   <table class="table table-bordered table-striped">
     <thead class="table-success">
       <tr>
@@ -28,6 +28,8 @@
         <th>Aksi</th>
       </tr>
     </thead>
+    <tbody id="daftar-todo">
+    </tbody>
     <tbody>
       <tr>
         <td>1</td>
@@ -90,6 +92,7 @@
         <select class="form-select" required>
             <option value="">Pilih Status</option>
             <option value="Belum Selesai">Belum Selesai</option>
+            <option value="Proses">Proses</option>
             <option value="Selesai">Selesai</option>
         </select>
     </div>
@@ -101,10 +104,45 @@
 </form>
 
 <script type="module">
-  import { tambahTodoList } from './main.js'; // pastikan path sesuai
+  import { tambahTodoList, ambilDaftarTodo } from './main.js'; // pastikan path sesuai
 
-  $(document).ready(function () {
-    $("form").submit(async function (event) {
+  $(document).ready(async function () {
+     const tbody = $("#daftar-todo");
+    const daftar = await ambilTodoList();
+
+    let nomor = 1;
+    daftar.forEach((todo) => {
+      const badge = todo.status === "Selesai"
+        ? `<span class="badge bg-success">Selesai</span>`
+        : `<span class="badge bg-warning text-dark">${todo.status}</span>`;
+
+      tbody.append(`
+        <tr>
+          <td>${nomor}</td>
+          <td>${todo.nama}</td>
+          <td>${badge}</td>
+          <td>
+            <button class="btn btn-sm btn-primary me-1" title="Ubah"><i class="bi bi-pencil"></i></button>
+            <button class="btn btn-sm btn-danger me-1" title="Hapus"><i class="bi bi-trash"></i></button>
+            <button class="btn btn-sm btn-success" title="Tandai Selesai"><i class="bi bi-check-lg"></i></button>
+          </td>
+        </tr>
+      `);
+      nomor++;
+    });
+
+    // Menangani penambahan data dari form
+    $("form").submit(async function (e) {
+      e.preventDefault();
+      const nama = $("input.form-control").val();
+      const status = $("select.form-select").val();
+
+      if (nama && status) {
+        await tambahTodo(nama, status);
+        location.reload();
+      }
+    });
+    $("todo-form").submit(async function (event) {
       event.preventDefault();
 
       // Ambil nilai dari input
