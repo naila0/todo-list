@@ -44,12 +44,12 @@ export async function ambilDaftarTodo() {
 }
 
 //fungsi untuk menambah todo list
-export async function tambahTodoList(teks) {
+export async function tambahTodoList(teks, status) {
   try {
     // menyimpan data ke Firebase
     const refDokumen = await addDoc(collection(basisdata, "todo"), {
       teks: teks,
-      status: false // default: belum selesai
+      status: status // bisa "belum", "proses", atau "selesai"
     });
 
     // menampilkan pesan berhasil
