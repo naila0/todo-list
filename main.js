@@ -42,3 +42,20 @@ export async function ambilDaftarTodo() {
     return [];
   }
 }
+
+//fungsi untuk menambah todo list
+export async function tambahTodoList(teks) {
+  try {
+    // menyimpan data ke Firebase
+    const refDokumen = await addDoc(collection(basisdata, "todo"), {
+      teks: teks,
+      status: false // default: belum selesai
+    });
+
+    // menampilkan pesan berhasil
+    console.log('Berhasil menyimpan data todo');
+  } catch (error) {
+    // menampilkan pesan gagal
+    console.log('Gagal menyimpan data todo:', error);
+  }
+}
