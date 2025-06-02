@@ -30,9 +30,9 @@
     </thead>
     <tbody id="daftar-todo">
     </tbody>
-    <tbody>
-      <tr>
-        <td>1</td>
+   
+     <tr>
+        <td>2</td>
         <td>Belajar HTML dan CSS</td>
         <td><span class="badge bg-warning text-dark">Belum Selesai</span></td>
         <td>
@@ -49,7 +49,7 @@
       </tr>
       
       <tr>
-        <td>2</td>
+        <td>3</td>
         <td>kerjakan tugas rpl</td>
         <td><span class="badge bg-warning text-dark">proses</span></td>
         <td>
@@ -66,7 +66,7 @@
       </tr>
       
       <tr>
-        <td>3</td>
+        <td>4</td>
         <td>baca dokumen bootstrap</td>
         <td><span class="badge bg-warning text-dark">selesai</span></td>
         <td>
@@ -81,6 +81,7 @@
           </button>
         </td>
       </tr>
+    <tbody>
     </tbody>
   </table>
   
@@ -108,7 +109,7 @@
 
   $(document).ready(async function () {
      const tbody = $("#daftar-todo");
-    const daftar = await ambilTodoList();
+    const daftar = await ambilDaftarTodo();
 
     let nomor = 1;
     daftar.forEach((todo) => {
@@ -119,7 +120,7 @@
       tbody.append(`
         <tr>
           <td>${nomor}</td>
-          <td>${todo.nama}</td>
+          <td>${todo.teks}</td>
           <td>${badge}</td>
           <td>
             <button class="btn btn-sm btn-primary me-1" title="Ubah"><i class="bi bi-pencil"></i></button>
@@ -138,7 +139,7 @@
       const status = $("select.form-select").val();
 
       if (nama && status) {
-        await tambahTodo(nama, status);
+        await tambahTodoList(nama, status);
         location.reload();
       }
     });
