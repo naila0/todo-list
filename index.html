@@ -100,6 +100,36 @@
     </div>
 </form>
 
+<script type="module">
+  import { tambahTodoList } from './main.js'; // pastikan path sesuai
+
+  $(document).ready(function () {
+    $("form").submit(async function (event) {
+      event.preventDefault();
+
+      // Ambil nilai dari input
+      const teks = $("input[placeholder='Nama Tugas']").val();
+      const status = $("select").val();
+
+      // Validasi sederhana
+      if (!teks || !status) {
+        alert("Isi semua data tugas dan status.");
+        return;
+      }
+
+      // Disable tombol agar tidak diklik dua kali
+      const tombol = $(this).find("button[type='submit']");
+      tombol.attr("disabled", "disabled").text("Menyimpan...");
+
+      // Simpan ke Firebase
+      await tambahTodoList(teks, status.toLowerCase());
+
+      // Refresh halaman (atau redirect, tergantung kebutuhan)
+      location.reload();
+    });
+  });
+</script>
+
 </body>
 
 </html>
